@@ -20,6 +20,8 @@ public class BallController : MonoBehaviour
 
     private Color solveColor;
 
+    public AudioClip beepSound;
+
     private void Start()
     {
         solveColor = Random.ColorHSV(.5f, 1); // Only take pretty light colors
@@ -77,7 +79,9 @@ public class BallController : MonoBehaviour
                 if (currentSwipe.sqrMagnitude < minSwipeRecognition) // Minium amount of swipe recognition
                     return;
 
-                currentSwipe.Normalize(); // Normalize it to only get the direction not the distance (would fake the balls speed)
+                currentSwipe.Normalize(); // Normalize it to only get the direction not the distance
+                FindObjectOfType<GameManager>().playerAudio.PlayOneShot(beepSound, 1.0f);
+
 
                 // Up/Down swipe
                 if (currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
@@ -112,6 +116,7 @@ public class BallController : MonoBehaviour
         if (Physics.Raycast(transform.position, direction, out hit, 100f))
         {
             nextCollisionPosition = hit.point;
+
         }
 
         isTraveling = true;

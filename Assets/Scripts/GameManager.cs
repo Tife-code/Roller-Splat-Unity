@@ -9,11 +9,13 @@ public class GameManager : MonoBehaviour
 
     private GroundPiece[] allGroundPieces;
 
-    public AudioClip backgroundMusic;
+    public AudioClip winLevel;
+    public AudioSource playerAudio;
 
     private void Start()
     {
         SetupNewLevel();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     private void SetupNewLevel()
@@ -57,7 +59,7 @@ public class GameManager : MonoBehaviour
         if (isFinished)
         {
             NextLevel();
-            GameObject.FindObjectOfType<AudioManager>().Play("next level");
+            playerAudio.PlayOneShot(winLevel, 1.0f);
         }
 
     }
@@ -65,7 +67,8 @@ public class GameManager : MonoBehaviour
     private void NextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        backgroundMusic.Play();
+        
     }
+
 
 }
